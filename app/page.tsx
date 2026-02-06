@@ -109,38 +109,82 @@ export default function Home() {
 
         {/* Right Column */}
         <div className="space-y-6">
-          <Card className="shadow-modern border-border/50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Thermometer className="h-5 w-5 text-blue-500" />
-                Quick Stats
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
-                  <p className="text-sm text-muted-foreground">Temperature</p>
-                  <p className="text-2xl font-bold">
-                    {weatherData.temperature}°
-                  </p>
+          <div>
+            <Card className="shadow-modern border-border/50">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Thermometer className="h-5 w-5 text-blue-500" />
+                  Quick Stats
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
+                    <p className="text-sm text-muted-foreground">Temperature</p>
+                    <p className="text-2xl font-bold">
+                      {weatherData.temperature}°
+                    </p>
+                  </div>
+                  <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
+                    <p className="text-sm text-muted-foreground">Feels Like</p>
+                    <p className="text-2xl font-bold">
+                      {weatherData.feelsLike}°
+                    </p>
+                  </div>
+                  <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
+                    <p className="text-sm text-muted-foreground">Humidity</p>
+                    <p className="text-2xl font-bold">
+                      {weatherData.humidity}%
+                    </p>
+                  </div>
+                  <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
+                    <p className="text-sm text-muted-foreground">Wind</p>
+                    <p className="text-2xl font-bold">
+                      {weatherData.windSpeed} mph
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
-                  <p className="text-sm text-muted-foreground">Feels Like</p>
-                  <p className="text-2xl font-bold">{weatherData.feelsLike}°</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-6 grid grid-rows-1 md:grid-rows-3 gap-4">
+            <Card className="shadow-modern border-border/50">
+              <CardContent className="p-4 flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Sunrise</p>
+                  <p className="text-lg font-semibold">6:45 AM</p>
                 </div>
-                <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
-                  <p className="text-sm text-muted-foreground">Humidity</p>
-                  <p className="text-2xl font-bold">{weatherData.humidity}%</p>
+                <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
+                  <div className="w-6 h-6 bg-yellow-500 rounded-full"></div>
                 </div>
-                <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
-                  <p className="text-sm text-muted-foreground">Wind</p>
-                  <p className="text-2xl font-bold">
-                    {weatherData.windSpeed} mph
-                  </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-modern border-border/50">
+              <CardContent className="p-4 flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Sunset</p>
+                  <p className="text-lg font-semibold">7:30 PM</p>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                  <div className="w-6 h-6 bg-orange-500 rounded-full"></div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-modern border-border/50">
+              <CardContent className="p-4 flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">Moon Phase</p>
+                  <p className="text-lg font-semibold">Waxing Crescent</p>
+                </div>
+                <div className="w-10 h-10 bg-slate-100 dark:bg-slate-900/30 rounded-lg flex items-center justify-center">
+                  <div className="w-6 h-6 bg-slate-400 rounded-full"></div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
 
@@ -158,43 +202,6 @@ export default function Home() {
       </Card>
 
       {/* Footer Stats */}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="shadow-modern border-border/50">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Sunrise</p>
-              <p className="text-lg font-semibold">6:45 AM</p>
-            </div>
-            <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
-              <div className="w-6 h-6 bg-yellow-500 rounded-full"></div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-modern border-border/50">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Sunset</p>
-              <p className="text-lg font-semibold">7:30 PM</p>
-            </div>
-            <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
-              <div className="w-6 h-6 bg-orange-500 rounded-full"></div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-modern border-border/50">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div>
-              <p className="text-sm text-muted-foreground">Moon Phase</p>
-              <p className="text-lg font-semibold">Waxing Crescent</p>
-            </div>
-            <div className="w-10 h-10 bg-slate-100 dark:bg-slate-900/30 rounded-lg flex items-center justify-center">
-              <div className="w-6 h-6 bg-slate-400 rounded-full"></div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
     </div>
   );
 }

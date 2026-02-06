@@ -78,7 +78,7 @@ export default function CurrentWeather({
         
         <Progress 
           value={tempPercentage} 
-          className="h-3 bg-slate-100 dark:bg-slate-800 [&>div]:bg-gradient-to-r from-blue-500 to-blue-700"
+          className="h-3 bg-slate-100 dark:bg-slate-800 [&>div]:bg-linear-to-r from-blue-500 to-blue-700"
         />
         
         <div className="flex justify-between text-sm text-muted-foreground">

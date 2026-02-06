@@ -83,7 +83,7 @@ export default function WeatherDetails({
             </div>
             <Progress 
               value={detail.progress} 
-              className="h-2 bg-white/50 dark:bg-black/20 [&>div]:bg-gradient-to-r"
+              className="h-2 bg-white/50 dark:bg-black/20 [&>div]:bg-linear-to-r"
               style={{
                 ['--tw-gradient-from' as string]: detail.color.split(' ')[0].replace('from-', ''),
                 ['--tw-gradient-to' as string]: detail.color.split(' ')[1].replace('to-', '')
