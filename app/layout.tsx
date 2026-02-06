@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: "Weather Forecast App",
-  description: "Real-time weather forecast application",
+  title: "Weather Forecast | Modern",
+  description: "A modern weather forecasting application",
 };
 
 export default function RootLayout({
@@ -15,30 +23,36 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#0f172a" />
       </head>
-      <body className={`${inter.className} antialiased bg-background`}>
-        {/* Animated gradient background */}
-        <div className="fixed inset-0 -z-10 h-full w-full bg-linear-to-br from-background via-background to-secondary/10">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f12_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f12_1px,transparent_1px)] bg-size-[24px_24px] opacity-20"></div>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
+      >
+        {/* Modern gradient background */}
+        <div className="fixed inset-0 -z-10 bg-gradient-modern">
+          {/* Grid pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#3b82f60a_1px,transparent_1px),linear-gradient(to_bottom,#3b82f60a_1px,transparent_1px)] bg-[size:64px_64px]"></div>
           
-          <div className="absolute top-1/4 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-          <div className="absolute -bottom-8 -right-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-secondary rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse delay-500"></div>
+          {/* Blue accent shapes */}
+          <div className="absolute top-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"></div>
         </div>
 
-        <main className="min-h-screen relative z-10 p-4 md:p-8">
-          <div className="max-w-2xl mx-auto">
-            {children}
-          </div>
+        {/* Main content */}
+        <main className="min-h-screen relative z-10">
+          {children}
         </main>
 
-        <footer className="relative z-10 text-center py-6">
-          <p className="text-sm text-muted-foreground">
-            Powered by shadcn/ui • Weather data is simulated
-          </p>
+        {/* Footer */}
+        <footer className="py-6 text-center border-t border-border">
+          <div className="container mx-auto px-4">
+            <p className="text-sm text-muted-foreground">
+              Weather Forecast • Modern UI • Data updates every 15 minutes
+            </p>
+          </div>
         </footer>
       </body>
     </html>
