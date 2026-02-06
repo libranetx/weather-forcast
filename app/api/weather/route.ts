@@ -31,11 +31,24 @@ export async function GET(request: Request) {
       sunrise: today.sunrise,
       sunset: today.sunset,
       moonPhase: today.moonphase,
-      hourlyForecast: (today.hours ?? []).slice(0, 24).map((hour) => ({
-        time: hour.datetime,
-        temp: hour.temp,
-        icon: hour.icon,
-      })),
+      hourlyForecast: (today.hours ?? []).slice(0, 24).map((hour) => {
+        // Visual Crossing typically returns hour.datetime as "00:00:00", "13:00:00", etc.
+        const raw = hour.datetime;
+        const hourPart =
+          typeof raw === "string" ? parseInt(raw.split(":")[0] || "0", 10) : 0;
+        const formattedHour = (() => {
+          if (Number.isNaN(hourPart)) return raw;
+          const suffix = hourPart >= 12 ? "PM" : "AM";
+          const hour12 = hourPart % 12 === 0 ? 12 : hourPart % 12;
+          return `${hour12.toString().padStart(2, "0")} ${suffix}`;
+        })();
+
+        return {
+          time: formattedHour,
+          temp: hour.temp,
+          icon: hour.icon,
+        };
+      }),
       meta: {
         unitGroup,
         timezone: data.timezone,
