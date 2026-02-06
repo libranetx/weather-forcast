@@ -43,7 +43,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
         </Card>
       </form>
 
-      {/* Recent Searches */}
+      {/* Suggested Cities */}
       <div className="flex flex-wrap gap-2">
         <Button
           type="button"
@@ -84,6 +84,46 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
         >
           <MapPin className="h-3 w-3" />
           Sydney
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => onSearch?.('Paris')}
+        >
+          <MapPin className="h-3 w-3" />
+          Paris
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => onSearch?.('Dubai')}
+        >
+          <MapPin className="h-3 w-3" />
+          Dubai
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => onSearch?.('Singapore')}
+        >
+          <MapPin className="h-3 w-3" />
+          Singapore
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => onSearch?.('Los Angeles')}
+        >
+          <MapPin className="h-3 w-3" />
+          Los Angeles
         </Button>
       </div>
     </div>
