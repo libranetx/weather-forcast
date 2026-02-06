@@ -36,7 +36,7 @@ export default function WeatherDetails({
     {
       icon: Wind,
       label: 'Wind Speed',
-      value: `${windSpeed} mph`,
+      value: `${windSpeed} km/h`,
       progress: Math.min(100, windSpeed * 10),
       color: 'from-slate-400 to-slate-600',
       bg: 'bg-slate-50 dark:bg-slate-900/20'
@@ -44,7 +44,7 @@ export default function WeatherDetails({
     {
       icon: Eye,
       label: 'Visibility',
-      value: `${visibility} mi`,
+      value: `${visibility} km`,
       progress: Math.min(100, visibility * 10),
       color: 'from-blue-300 to-blue-500',
       bg: 'bg-blue-50 dark:bg-blue-950/20'

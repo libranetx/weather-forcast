@@ -24,6 +24,8 @@ export async function GET(request: Request) {
       condition: today.conditions,
       temperature: today.temp,
       feelsLike: today.feelslike,
+      tempMax: today.tempmax,
+      tempMin: today.tempmin,
       humidity: today.humidity,
       windSpeed: today.windspeed,
       visibility: today.visibility,

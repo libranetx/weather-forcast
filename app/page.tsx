@@ -27,6 +27,8 @@ type WeatherData = {
   condition: string;
   temperature: number;
   feelsLike: number;
+  tempMax: number;
+  tempMin: number;
   humidity: number;
   windSpeed: number;
   visibility: number;
@@ -35,6 +37,22 @@ type WeatherData = {
   sunset: string;
   moonPhase: number;
   hourlyForecast: HourlyForecastItem[];
+  meta?: {
+    unitGroup: "metric" | "us";
+    timezone: string;
+    description?: string;
+  };
+};
+
+const getMoonPhaseLabel = (phase: number): string => {
+  if (phase === 0 || phase === 1) return "New Moon";
+  if (phase > 0 && phase < 0.25) return "Waxing Crescent";
+  if (phase === 0.25) return "First Quarter";
+  if (phase > 0.25 && phase < 0.5) return "Waxing Gibbous";
+  if (phase === 0.5) return "Full Moon";
+  if (phase > 0.5 && phase < 0.75) return "Waning Gibbous";
+  if (phase === 0.75) return "Last Quarter";
+  return "Waning Crescent";
 };
 
 export default function Home() {
@@ -54,15 +72,14 @@ export default function Home() {
       });
 
       const res = await fetch(`/api/weather?${params.toString()}`);
+      const data = await res.json().catch(() => null);
 
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.error || "Failed to fetch weather data");
+      if (!res.ok || !data) {
+        throw new Error(data?.error || "Failed to fetch weather data");
       }
 
-      const data = await res.json();
-      setWeatherData(data);
-      setLocation(data.city ?? loc);
+      setWeatherData(data as WeatherData);
+      setLocation((data as WeatherData).city ?? loc);
     } catch (err: any) {
       console.error(err);
       setError(err.message || "Something went wrong");
@@ -137,6 +154,9 @@ export default function Home() {
                   condition={weatherData.condition}
                   temperature={weatherData.temperature}
                   feelsLike={weatherData.feelsLike}
+                  tempMax={weatherData.tempMax}
+                  tempMin={weatherData.tempMin}
+                  description={weatherData.meta?.description}
                 />
               )}
             </CardContent>
@@ -195,7 +215,7 @@ export default function Home() {
                   <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
                     <p className="text-sm text-muted-foreground">Wind</p>
                     <p className="text-2xl font-bold">
-                    {weatherData ? `${weatherData.windSpeed} mph` : "--"}
+                    {weatherData ? `${weatherData.windSpeed} km/h` : "--"}
                     </p>
                   </div>
                 </div>
@@ -237,7 +257,9 @@ export default function Home() {
                 <div>
                   <p className="text-sm text-muted-foreground">Moon Phase</p>
                   <p className="text-lg font-semibold">
-                    {weatherData ? `${weatherData.moonPhase}` : "--"}
+                    {weatherData
+                      ? getMoonPhaseLabel(weatherData.moonPhase)
+                      : "--"}
                   </p>
                 </div>
                 <div className="w-10 h-10 bg-slate-100 dark:bg-slate-900/30 rounded-lg flex items-center justify-center">

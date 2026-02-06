@@ -40,8 +40,6 @@ export default function HourlyForecast({ forecast }: HourlyForecastProps) {
       <div className="relative">
         <div className="flex space-x-4 overflow-x-auto pb-4 scrollbar-hide">
           {forecast.map((hour, index) => {
-            const heightPercentage = ((hour.temp - minTemp) / (maxTemp - minTemp)) * 100
-            
             return (
               <div key={index} className="flex flex-col items-center min-w-20">
                 <Card className="bg-white/5 backdrop-blur-sm border-white/10 w-full">
