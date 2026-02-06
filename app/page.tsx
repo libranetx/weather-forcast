@@ -60,6 +60,7 @@ export default function Home() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   const loadWeather = async (loc: string) => {
     try {
@@ -80,6 +81,7 @@ export default function Home() {
 
       setWeatherData(data as WeatherData);
       setLocation((data as WeatherData).city ?? loc);
+      setLastUpdated(new Date());
     } catch (err: any) {
       console.error(err);
       setError(err.message || "Something went wrong");
@@ -90,8 +92,17 @@ export default function Home() {
 
   useEffect(() => {
     loadWeather(location);
+  }, [location]);
+
+  // Auto-refresh every 5 minutes for the current location
+  useEffect(() => {
+    const interval = setInterval(() => {
+      loadWeather(location);
+    }, 5 * 60 * 1000);
+
+    return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [location]);
 
   const handleSearch = (query: string) => {
     setLocation(query);
@@ -115,7 +126,7 @@ export default function Home() {
           className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800"
         >
           <Navigation className="w-4 h-4 mr-2" />
-          Live Updates
+          {loading ? "Updating..." : "Live"}
         </Badge>
       </div>
 
@@ -138,7 +149,11 @@ export default function Home() {
                   Current Weather
                 </CardTitle>
                 <Badge className="bg-blue-500 text-white">
-                  {loading ? "Updating..." : "Live"}
+                  {lastUpdated
+                    ? `Updated ${lastUpdated.toLocaleTimeString()}`
+                    : loading
+                    ? "Loading..."
+                    : "Live"}
                 </Badge>
               </div>
             </CardHeader>
