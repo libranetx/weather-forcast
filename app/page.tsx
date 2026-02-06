@@ -1,11 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import SearchBar from "@/components/SearchBar"
 import CurrentWeather from "@/components/CurrentWeather"
 import WeatherDetails from "@/components/WeatherDetails"
 import HourlyForecast from "@/components/HourlyForecast"
-import { Cloud, Droplets, Wind, Eye, Thermometer } from 'lucide-react'
+import SearchBar from "@/components/SearchBar"
+import { Cloud, Droplets, Wind, Eye, Thermometer, Navigation } from 'lucide-react'
 
 export default function Home() {
   const weatherData = {
@@ -18,34 +18,46 @@ export default function Home() {
     visibility: 10,
     uvIndex: 5,
     hourlyForecast: [
-      { time: '09 PM', temp: 27 },
-      { time: '10 PM', temp: 26 },
-      { time: '11 PM', temp: 25 },
-      { time: '12 AM', temp: 24 },
-      { time: '01 AM', temp: 23 },
-      { time: '02 AM', temp: 22 },
-      { time: '03 AM', temp: 21 },
+      { time: '09 PM', temp: 27, icon: 'clear' },
+      { time: '10 PM', temp: 26, icon: 'clear' },
+      { time: '11 PM', temp: 25, icon: 'clear' },
+      { time: '12 AM', temp: 24, icon: 'cloudy' },
+      { time: '01 AM', temp: 23, icon: 'cloudy' },
+      { time: '02 AM', temp: 22, icon: 'cloudy' },
+      { time: '03 AM', temp: 21, icon: 'cloudy' },
     ]
   }
 
   return (
-    <div className="space-y-6">
-      <Card className="border-none shadow-2xl bg-linear-to-br from-slate-900/90 via-purple-900/80 to-blue-900/90 backdrop-blur-lg">
-        <CardHeader className="text-center pb-4">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Cloud className="h-6 w-6 text-white/70" />
-            <CardTitle className="text-3xl font-bold bg-linear-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
-              Weather Forecast
-            </CardTitle>
-          </div>
-          <p className="text-sm text-white/60">Real-time weather updates</p>
-        </CardHeader>
-        
-        <CardContent className="space-y-6">
-          <SearchBar />
-          
-          <Card className="bg-linear-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border-white/10">
-            <CardContent className="pt-6">
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-4xl font-bold text-gradient-blue">
+            Weather Forecast
+          </h1>
+          <p className="text-muted-foreground mt-2">Real-time weather data with modern design</p>
+        </div>
+        <Badge variant="outline" className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800">
+          <Navigation className="w-4 h-4 mr-2" />
+          Live Updates
+        </Badge>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column */}
+        <div className="lg:col-span-2 space-y-6">
+          <Card className="shadow-modern-lg border-border/50">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center gap-2">
+                  <Cloud className="h-5 w-5 text-blue-500" />
+                  Current Weather
+                </CardTitle>
+                <Badge className="bg-blue-500 text-white">Updated 5 min ago</Badge>
+              </div>
+            </CardHeader>
+            <CardContent>
               <CurrentWeather 
                 city={weatherData.city}
                 condition={weatherData.condition}
@@ -55,78 +67,114 @@ export default function Home() {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="bg-linear-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border-white/10">
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Droplets className="h-5 w-5 text-blue-400" />
-                  Weather Details
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <WeatherDetails 
-                  humidity={weatherData.humidity}
-                  windSpeed={weatherData.windSpeed}
-                  visibility={weatherData.visibility}
-                  uvIndex={weatherData.uvIndex}
-                />
-              </CardContent>
-            </Card>
-
-            <Card className="bg-linear-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border-white/10">
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
-                  <Thermometer className="h-5 w-5 text-red-400" />
-                  Current Stats
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-white/70">Temperature</span>
-                    <Badge variant="outline" className="bg-white/10 text-white">
-                      {weatherData.temperature}°C
-                    </Badge>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-white/70">Feels Like</span>
-                    <Badge variant="outline" className="bg-white/10 text-white">
-                      {weatherData.feelsLike}°C
-                    </Badge>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-white/70">Condition</span>
-                    <Badge className="bg-blue-500/20 text-blue-300 border-blue-500/30">
-                      {weatherData.condition}
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <Separator className="bg-white/20" />
-
-          <Card className="bg-linear-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border-white/10">
+          <Card className="shadow-modern border-border/50">
             <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Wind className="h-5 w-5 text-white/70" />
-                24-Hour Forecast
+              <CardTitle className="flex items-center gap-2">
+                <Droplets className="h-5 w-5 text-blue-500" />
+                Weather Details
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <HourlyForecast forecast={weatherData.hourlyForecast} />
+              <WeatherDetails 
+                humidity={weatherData.humidity}
+                windSpeed={weatherData.windSpeed}
+                visibility={weatherData.visibility}
+                uvIndex={weatherData.uvIndex}
+              />
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Right Column */}
+        <div className="space-y-6">
+          <Card className="shadow-modern border-border/50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Thermometer className="h-5 w-5 text-blue-500" />
+                Quick Stats
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Temperature</p>
+                  <p className="text-2xl font-bold">{weatherData.temperature}°</p>
+                </div>
+                <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Feels Like</p>
+                  <p className="text-2xl font-bold">{weatherData.feelsLike}°</p>
+                </div>
+                <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Humidity</p>
+                  <p className="text-2xl font-bold">{weatherData.humidity}%</p>
+                </div>
+                <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
+                  <p className="text-sm text-muted-foreground">Wind</p>
+                  <p className="text-2xl font-bold">{weatherData.windSpeed} mph</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
 
-          <div className="text-center pt-4">
-            <Badge variant="secondary" className="bg-white/10 text-white/70 hover:bg-white/20">
-              <Eye className="h-3 w-3 mr-1" />
-              Last updated: Today at 8:45 PM
-            </Badge>
-          </div>
+          <Card className="shadow-modern border-border/50">
+            <CardContent className="p-6">
+              <SearchBar />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Hourly Forecast */}
+      <Card className="mt-6 shadow-modern border-border/50">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Wind className="h-5 w-5 text-blue-500" />
+            24-Hour Forecast
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <HourlyForecast forecast={weatherData.hourlyForecast} />
         </CardContent>
       </Card>
+
+      {/* Footer Stats */}
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <Card className="shadow-modern border-border/50">
+          <CardContent className="p-4 flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground">Sunrise</p>
+              <p className="text-lg font-semibold">6:45 AM</p>
+            </div>
+            <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
+              <div className="w-6 h-6 bg-yellow-500 rounded-full"></div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-modern border-border/50">
+          <CardContent className="p-4 flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground">Sunset</p>
+              <p className="text-lg font-semibold">7:30 PM</p>
+            </div>
+            <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+              <div className="w-6 h-6 bg-orange-500 rounded-full"></div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-modern border-border/50">
+          <CardContent className="p-4 flex items-center justify-between">
+            <div>
+              <p className="text-sm text-muted-foreground">Moon Phase</p>
+              <p className="text-lg font-semibold">Waxing Crescent</p>
+            </div>
+            <div className="w-10 h-10 bg-slate-100 dark:bg-slate-900/30 rounded-lg flex items-center justify-center">
+              <div className="w-6 h-6 bg-slate-400 rounded-full"></div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
-  )
+  );
 }
