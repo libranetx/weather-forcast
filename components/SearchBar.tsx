@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Search } from 'lucide-react'
+import { Search, MapPin } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -16,25 +16,47 @@ export default function SearchBar() {
   }
 
   return (
-    <form onSubmit={handleSearch} className="mb-6">
-      <Card className="bg-linear-to-r from-white/5 via-white/10 to-white/5 backdrop-blur-sm border-white/10 overflow-hidden">
-        <div className="relative flex items-center p-1">
-          <Search className="absolute left-4 h-4 w-4 text-white/50" />
-          <Input
-            type="text"
-            placeholder="Search for a city..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 pl-10 pr-24 border-none bg-transparent text-white placeholder:text-white/50 focus-visible:ring-0 focus-visible:ring-offset-0"
-          />
-          <Button 
-            type="submit"
-            className="absolute right-1 bg-linear-to-r from-secondary to-purple-600 hover:from-secondary/90 hover:to-purple-600/90 text-white"
-          >
-            Search
-          </Button>
-        </div>
-      </Card>
-    </form>
+    <div className="space-y-4">
+      <form onSubmit={handleSearch} className="group">
+        <Card className="border-border/50 shadow-sm overflow-hidden">
+          <div className="relative p-1">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search for city, zip code, or location..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-12 pr-24 border-none bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 text-base h-14"
+            />
+            <Button 
+              type="submit"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white h-10 px-6"
+            >
+              Search
+            </Button>
+          </div>
+        </Card>
+      </form>
+
+      {/* Recent Searches */}
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" className="gap-2">
+          <MapPin className="h-3 w-3" />
+          New York
+        </Button>
+        <Button variant="outline" size="sm" className="gap-2">
+          <MapPin className="h-3 w-3" />
+          London
+        </Button>
+        <Button variant="outline" size="sm" className="gap-2">
+          <MapPin className="h-3 w-3" />
+          Tokyo
+        </Button>
+        <Button variant="outline" size="sm" className="gap-2">
+          <MapPin className="h-3 w-3" />
+          Sydney
+        </Button>
+      </div>
+    </div>
   )
 }

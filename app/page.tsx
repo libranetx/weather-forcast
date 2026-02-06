@@ -1,16 +1,23 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import CurrentWeather from "@/components/CurrentWeather"
-import WeatherDetails from "@/components/WeatherDetails"
-import HourlyForecast from "@/components/HourlyForecast"
-import SearchBar from "@/components/SearchBar"
-import { Cloud, Droplets, Wind, Eye, Thermometer, Navigation } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import CurrentWeather from "@/components/CurrentWeather";
+import WeatherDetails from "@/components/WeatherDetails";
+import HourlyForecast from "@/components/HourlyForecast";
+import SearchBar from "@/components/SearchBar";
+import {
+  Cloud,
+  Droplets,
+  Wind,
+  Eye,
+  Thermometer,
+  Navigation,
+} from "lucide-react";
 
 export default function Home() {
   const weatherData = {
-    city: 'New York',
-    condition: 'Clear',
+    city: "New York",
+    condition: "Clear",
     temperature: 31,
     feelsLike: 27,
     humidity: 49.9,
@@ -18,15 +25,15 @@ export default function Home() {
     visibility: 10,
     uvIndex: 5,
     hourlyForecast: [
-      { time: '09 PM', temp: 27, icon: 'clear' },
-      { time: '10 PM', temp: 26, icon: 'clear' },
-      { time: '11 PM', temp: 25, icon: 'clear' },
-      { time: '12 AM', temp: 24, icon: 'cloudy' },
-      { time: '01 AM', temp: 23, icon: 'cloudy' },
-      { time: '02 AM', temp: 22, icon: 'cloudy' },
-      { time: '03 AM', temp: 21, icon: 'cloudy' },
-    ]
-  }
+      { time: "09 PM", temp: 27, icon: "clear" },
+      { time: "10 PM", temp: 26, icon: "clear" },
+      { time: "11 PM", temp: 25, icon: "clear" },
+      { time: "12 AM", temp: 24, icon: "cloudy" },
+      { time: "01 AM", temp: 23, icon: "cloudy" },
+      { time: "02 AM", temp: 22, icon: "cloudy" },
+      { time: "03 AM", temp: 21, icon: "cloudy" },
+    ],
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -36,12 +43,25 @@ export default function Home() {
           <h1 className="text-4xl font-bold text-gradient-blue">
             Weather Forecast
           </h1>
-          <p className="text-muted-foreground mt-2">Real-time weather data with modern design</p>
+          <p className="text-muted-foreground mt-2">
+            Real-time weather data with modern design
+          </p>
         </div>
-        <Badge variant="outline" className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800">
+        <Badge
+          variant="outline"
+          className="bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800"
+        >
           <Navigation className="w-4 h-4 mr-2" />
           Live Updates
         </Badge>
+      </div>
+
+      <div className="mb-8">
+        <Card className="shadow-modern border-border/50">
+          <CardContent className="p-6">
+            <SearchBar />
+          </CardContent>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -54,11 +74,13 @@ export default function Home() {
                   <Cloud className="h-5 w-5 text-blue-500" />
                   Current Weather
                 </CardTitle>
-                <Badge className="bg-blue-500 text-white">Updated 5 min ago</Badge>
+                <Badge className="bg-blue-500 text-white">
+                  Updated 5 min ago
+                </Badge>
               </div>
             </CardHeader>
             <CardContent>
-              <CurrentWeather 
+              <CurrentWeather
                 city={weatherData.city}
                 condition={weatherData.condition}
                 temperature={weatherData.temperature}
@@ -75,7 +97,7 @@ export default function Home() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <WeatherDetails 
+              <WeatherDetails
                 humidity={weatherData.humidity}
                 windSpeed={weatherData.windSpeed}
                 visibility={weatherData.visibility}
@@ -98,7 +120,9 @@ export default function Home() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
                   <p className="text-sm text-muted-foreground">Temperature</p>
-                  <p className="text-2xl font-bold">{weatherData.temperature}°</p>
+                  <p className="text-2xl font-bold">
+                    {weatherData.temperature}°
+                  </p>
                 </div>
                 <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
                   <p className="text-sm text-muted-foreground">Feels Like</p>
@@ -110,15 +134,11 @@ export default function Home() {
                 </div>
                 <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
                   <p className="text-sm text-muted-foreground">Wind</p>
-                  <p className="text-2xl font-bold">{weatherData.windSpeed} mph</p>
+                  <p className="text-2xl font-bold">
+                    {weatherData.windSpeed} mph
+                  </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          <Card className="shadow-modern border-border/50">
-            <CardContent className="p-6">
-              <SearchBar />
             </CardContent>
           </Card>
         </div>
