@@ -1,3 +1,6 @@
+ "use client";
+
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -9,30 +12,73 @@ import {
   Cloud,
   Droplets,
   Wind,
-  Eye,
   Thermometer,
   Navigation,
 } from "lucide-react";
 
+type HourlyForecastItem = {
+  time: string;
+  temp: number;
+  icon: string;
+};
+
+type WeatherData = {
+  city: string;
+  condition: string;
+  temperature: number;
+  feelsLike: number;
+  humidity: number;
+  windSpeed: number;
+  visibility: number;
+  uvIndex: number;
+  sunrise: string;
+  sunset: string;
+  moonPhase: number;
+  hourlyForecast: HourlyForecastItem[];
+};
+
 export default function Home() {
-  const weatherData = {
-    city: "New York",
-    condition: "Clear",
-    temperature: 31,
-    feelsLike: 27,
-    humidity: 49.9,
-    windSpeed: 4,
-    visibility: 10,
-    uvIndex: 5,
-    hourlyForecast: [
-      { time: "09 PM", temp: 27, icon: "clear" },
-      { time: "10 PM", temp: 26, icon: "clear" },
-      { time: "11 PM", temp: 25, icon: "clear" },
-      { time: "12 AM", temp: 24, icon: "cloudy" },
-      { time: "01 AM", temp: 23, icon: "cloudy" },
-      { time: "02 AM", temp: 22, icon: "cloudy" },
-      { time: "03 AM", temp: 21, icon: "cloudy" },
-    ],
+  const [location, setLocation] = useState("New York");
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadWeather = async (loc: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const params = new URLSearchParams({
+        location: loc,
+        unitGroup: "metric",
+      });
+
+      const res = await fetch(`/api/weather?${params.toString()}`);
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || "Failed to fetch weather data");
+      }
+
+      const data = await res.json();
+      setWeatherData(data);
+      setLocation(data.city ?? loc);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadWeather(location);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSearch = (query: string) => {
+    setLocation(query);
+    loadWeather(query);
   };
 
   return (
@@ -59,7 +105,7 @@ export default function Home() {
       <div className="mb-8">
         <Card className="shadow-modern border-border/50">
           <CardContent className="p-6">
-            <SearchBar />
+            <SearchBar onSearch={handleSearch} />
           </CardContent>
         </Card>
       </div>
@@ -75,17 +121,24 @@ export default function Home() {
                   Current Weather
                 </CardTitle>
                 <Badge className="bg-blue-500 text-white">
-                  Updated 5 min ago
+                  {loading ? "Updating..." : "Live"}
                 </Badge>
               </div>
             </CardHeader>
             <CardContent>
-              <CurrentWeather
-                city={weatherData.city}
-                condition={weatherData.condition}
-                temperature={weatherData.temperature}
-                feelsLike={weatherData.feelsLike}
-              />
+              {error && (
+                <p className="text-sm text-red-500">
+                  {error}
+                </p>
+              )}
+              {weatherData && !error && (
+                <CurrentWeather
+                  city={weatherData.city}
+                  condition={weatherData.condition}
+                  temperature={weatherData.temperature}
+                  feelsLike={weatherData.feelsLike}
+                />
+              )}
             </CardContent>
           </Card>
 
@@ -97,12 +150,14 @@ export default function Home() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <WeatherDetails
-                humidity={weatherData.humidity}
-                windSpeed={weatherData.windSpeed}
-                visibility={weatherData.visibility}
-                uvIndex={weatherData.uvIndex}
-              />
+              {weatherData && !error && (
+                <WeatherDetails
+                  humidity={weatherData.humidity}
+                  windSpeed={weatherData.windSpeed}
+                  visibility={weatherData.visibility}
+                  uvIndex={weatherData.uvIndex}
+                />
+              )}
             </CardContent>
           </Card>
         </div>
@@ -122,25 +177,25 @@ export default function Home() {
                   <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
                     <p className="text-sm text-muted-foreground">Temperature</p>
                     <p className="text-2xl font-bold">
-                      {weatherData.temperature}°
+                    {weatherData ? `${weatherData.temperature}°` : "--"}
                     </p>
                   </div>
                   <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
                     <p className="text-sm text-muted-foreground">Feels Like</p>
                     <p className="text-2xl font-bold">
-                      {weatherData.feelsLike}°
+                    {weatherData ? `${weatherData.feelsLike}°` : "--"}
                     </p>
                   </div>
                   <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
                     <p className="text-sm text-muted-foreground">Humidity</p>
                     <p className="text-2xl font-bold">
-                      {weatherData.humidity}%
+                    {weatherData ? `${weatherData.humidity}%` : "--"}
                     </p>
                   </div>
                   <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg">
                     <p className="text-sm text-muted-foreground">Wind</p>
                     <p className="text-2xl font-bold">
-                      {weatherData.windSpeed} mph
+                    {weatherData ? `${weatherData.windSpeed} mph` : "--"}
                     </p>
                   </div>
                 </div>
@@ -153,7 +208,9 @@ export default function Home() {
               <CardContent className="p-4 flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">Sunrise</p>
-                  <p className="text-lg font-semibold">6:45 AM</p>
+                  <p className="text-lg font-semibold">
+                    {weatherData?.sunrise ?? "--"}
+                  </p>
                 </div>
                 <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
                   <div className="w-6 h-6 bg-yellow-500 rounded-full"></div>
@@ -165,7 +222,9 @@ export default function Home() {
               <CardContent className="p-4 flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">Sunset</p>
-                  <p className="text-lg font-semibold">7:30 PM</p>
+                  <p className="text-lg font-semibold">
+                    {weatherData?.sunset ?? "--"}
+                  </p>
                 </div>
                 <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
                   <div className="w-6 h-6 bg-orange-500 rounded-full"></div>
@@ -177,7 +236,9 @@ export default function Home() {
               <CardContent className="p-4 flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">Moon Phase</p>
-                  <p className="text-lg font-semibold">Waxing Crescent</p>
+                  <p className="text-lg font-semibold">
+                    {weatherData ? `${weatherData.moonPhase}` : "--"}
+                  </p>
                 </div>
                 <div className="w-10 h-10 bg-slate-100 dark:bg-slate-900/30 rounded-lg flex items-center justify-center">
                   <div className="w-6 h-6 bg-slate-400 rounded-full"></div>
@@ -197,7 +258,9 @@ export default function Home() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <HourlyForecast forecast={weatherData.hourlyForecast} />
+          {weatherData && !error && (
+            <HourlyForecast forecast={weatherData.hourlyForecast} />
+          )}
         </CardContent>
       </Card>
 

@@ -6,13 +6,18 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 
-export default function SearchBar() {
+interface SearchBarProps {
+  onSearch?: (query: string) => void
+}
+
+export default function SearchBar({ onSearch }: SearchBarProps) {
   const [searchQuery, setSearchQuery] = useState('')
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Searching for:', searchQuery)
-    // Implement search functionality here
+    const trimmed = searchQuery.trim()
+    if (!trimmed) return
+    onSearch?.(trimmed)
   }
 
   return (
@@ -40,19 +45,43 @@ export default function SearchBar() {
 
       {/* Recent Searches */}
       <div className="flex flex-wrap gap-2">
-        <Button variant="outline" size="sm" className="gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => onSearch?.('New York')}
+        >
           <MapPin className="h-3 w-3" />
           New York
         </Button>
-        <Button variant="outline" size="sm" className="gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => onSearch?.('London')}
+        >
           <MapPin className="h-3 w-3" />
           London
         </Button>
-        <Button variant="outline" size="sm" className="gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => onSearch?.('Tokyo')}
+        >
           <MapPin className="h-3 w-3" />
           Tokyo
         </Button>
-        <Button variant="outline" size="sm" className="gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="gap-2"
+          onClick={() => onSearch?.('Sydney')}
+        >
           <MapPin className="h-3 w-3" />
           Sydney
         </Button>
