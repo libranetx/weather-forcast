@@ -1,3 +1,5 @@
+import SearchBar from "@/components/SearchBar";
+import { Search } from "lucide-react";
 import Image from "next/image";
 
 interface WeatherData {
@@ -26,21 +28,7 @@ return (
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-black">Weather Forcast</h1>
         </div>
-
-        {/* <SearchBar onSearch={handleSearch} isLoading={isLoading} />
-
-        {error && (
-          <div className="bg-destructive/10 border border-destructive text-destructive rounded-lg p-4 mb-8">
-            {error}
-          </div>
-        )}
-
-        {weather && (
-          <>
-            <WeatherCard data={weather} location={location} isLoading={isLoading} />
-            {forecast.length > 0 && <ForecastCard forecast={forecast} />}
-          </>
-        )} */}
+        <SearchBar/>
       </div>
     </main>
   );
