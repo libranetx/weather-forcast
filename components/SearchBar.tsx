@@ -17,7 +17,7 @@ export default function SearchBar() {
 
   return (
     <form onSubmit={handleSearch} className="mb-6">
-      <Card className="bg-gradient-to-r from-white/5 via-white/10 to-white/5 backdrop-blur-sm border-white/10 overflow-hidden">
+      <Card className="bg-linear-to-r from-white/5 via-white/10 to-white/5 backdrop-blur-sm border-white/10 overflow-hidden">
         <div className="relative flex items-center p-1">
           <Search className="absolute left-4 h-4 w-4 text-white/50" />
           <Input
@@ -29,7 +29,7 @@ export default function SearchBar() {
           />
           <Button 
             type="submit"
-            className="absolute right-1 bg-gradient-to-r from-secondary to-purple-600 hover:from-secondary/90 hover:to-purple-600/90 text-white"
+            className="absolute right-1 bg-linear-to-r from-secondary to-purple-600 hover:from-secondary/90 hover:to-purple-600/90 text-white"
           >
             Search
           </Button>

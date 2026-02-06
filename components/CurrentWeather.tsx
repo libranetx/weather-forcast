@@ -54,7 +54,7 @@ export default function CurrentWeather({
         </div>
         
         <div className="text-right">
-          <div className="text-6xl font-bold bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent">
+          <div className="text-6xl font-bold bg-linear-to-b from-white to-white/80 bg-clip-text text-transparent">
             {temperature}°
           </div>
           <p className="text-sm text-white/70 mt-1">Celcius</p>
@@ -72,7 +72,7 @@ export default function CurrentWeather({
         
         <Progress 
           value={tempPercentage} 
-          className="h-2 bg-white/10 [&>div]:bg-gradient-to-r from-blue-400 to-purple-500"
+          className="h-2 bg-white/10 [&>div]:bg-linear-to-r from-blue-400 to-purple-500"
         />
         
         <div className="flex justify-between text-xs text-white/50">
