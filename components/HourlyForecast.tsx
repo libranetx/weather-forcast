@@ -56,27 +56,37 @@ export default function HourlyForecast({ forecast }: HourlyForecastProps) {
                   </CardContent>
                 </Card>
                 
-                {index < forecast.length - 1 && (
-                  <div className="mt-4 flex flex-col items-center">
-                    <div className="relative w-12 h-12 flex items-center justify-center">
-                      {/* Temperature line */}
-                      <div className="absolute w-0.5 h-full bg-linear-to-b from-blue-400/50 via-purple-400/50 to-pink-400/50"></div>
-                      
-                      {/* Arrow */}
-                      <div className="relative z-10">
-                        <ArrowDown className="h-6 w-6 text-white/60" />
+                {index < forecast.length - 1 && (() => {
+                  const diff = forecast[index + 1].temp - hour.temp
+                  const isUp = diff > 0
+                  const displayDiff = Math.abs(diff).toFixed(2)
+                  
+                  return (
+                    <div className="mt-4 flex flex-col items-center">
+                      <div className="relative w-12 h-12 flex items-center justify-center">
+                        {/* Temperature line */}
+                        <div className="absolute w-0.5 h-full bg-linear-to-b from-blue-400/50 via-purple-400/50 to-pink-400/50"></div>
+                        
+                        {/* Arrow */}
+                        <div className="relative z-10 rotate-0">
+                          <ArrowDown
+                            className={`h-6 w-6 ${
+                              isUp ? 'text-emerald-300 rotate-180' : 'text-sky-300'
+                            }`}
+                          />
+                        </div>
                       </div>
+                      
+                      {/* Temperature change */}
+                      <Badge 
+                        variant="outline" 
+                        className="mt-1 bg-white/5 text-white/70 border-white/10 text-xs"
+                      >
+                        {isUp ? '+' : '-'}{displayDiff}° {isUp ? '↑' : '↓'}
+                      </Badge>
                     </div>
-                    
-                    {/* Temperature change */}
-                    <Badge 
-                      variant="outline" 
-                      className="mt-1 bg-white/5 text-white/70 border-white/10 text-xs"
-                    >
-                      {hour.temp - forecast[index + 1].temp}° ↓
-                    </Badge>
-                  </div>
-                )}
+                  )
+                })()}
               </div>
             )
           })}
