@@ -148,15 +148,14 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
                     <span className="text-xs text-muted-foreground">
                       #{index + 1}
                     </span>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6 hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-500"
+                    <span
+                      role="button"
+                      aria-label={`Remove ${city} from history`}
+                      className="inline-flex h-6 w-6 items-center justify-center rounded-md text-muted-foreground hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-500"
                       onClick={(e) => removeFromHistory(city, e)}
                     >
                       <X className="h-3 w-3" />
-                    </Button>
+                    </span>
                   </div>
                 </Button>
               ))}
